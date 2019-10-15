@@ -1,13 +1,16 @@
 % Author: Matthew Lui 993333
 % Purpose: Solve a grid-based math puzzle with as search algorithm.
 %
-% Uses Prolog's constrain logic programming library to transform the game's
-% rules into a combinatorial problem for its solution. We use this library
-% for arithmatic, membership and combinatorial constraints.
+% Uses Prolog's constraint logic programming library to transform the game's
+% rules into constraints that restrict the possible solutions. We use this 
+% library for its for arithmatic, membership and combinatorial constraints. 
+% Restrictions are applied until we either find the solution, or we conduct 
+% labelling to test the remaining possible solutions. 
 %
 % Any cell in the grid must be unique in its row and column, be 1-9, and
 % its row and column values must sum or multiply to its associated header
-% value. Values down the diagonal must be equal.
+% value. Values down the diagonal must be equal. Puzzle are assumed to be
+% correct and only have one valid solution.
 
 % Algorithms are fun!
 
@@ -15,9 +18,8 @@
 :- ensure_loaded(library(clpfd)).
 
 % puzzle_solution(+Rows)
-% Enforce constraints with CLPFD and search for a single ground solution
+% Enforce constraints with CLPFD and search for solutions
 puzzle_solution(Rows) :-
-    once(Rows), % Only look for one solution
     line_rule(Rows),
     transpose(Rows, Columns),
     line_rule(Columns),
